@@ -1,5 +1,6 @@
 package com.yotsufe.androidjetpackcomposeresearch
 
+import android.content.res.Configuration
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -15,6 +16,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.yotsufe.androidjetpackcomposeresearch.app1.App1
+import com.yotsufe.androidjetpackcomposeresearch.app1.Message
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -26,7 +28,10 @@ class MainActivity : ComponentActivity() {
                     Greeting("Android", onClickButton = { navController.navigate("app1") })
                 }
                 composable(route = "app1") {
-                    App1(onClickButton = { navController.navigateUp() })
+                    App1(
+                        msg = Message("Colleague", "Hey, take a look at Jetpack Compose, it's great!"),
+                        onClickButton = { navController.navigateUp() }
+                    )
                 }
             }
         }
@@ -57,7 +62,12 @@ fun Greeting(name: String, onClickButton: ()->Unit = {}) {
     }
 }
 
-@Preview(showBackground = true)
+@Preview(name = "Light Mode")
+@Preview(
+    uiMode = Configuration.UI_MODE_NIGHT_YES,
+    showBackground = true,
+    name = "Dark Mode"
+)
 @Composable
 fun DefaultPreview() {
     Greeting("Android")
