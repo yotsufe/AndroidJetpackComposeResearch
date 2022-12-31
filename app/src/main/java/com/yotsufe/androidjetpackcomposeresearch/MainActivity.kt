@@ -2,8 +2,8 @@ package com.yotsufe.androidjetpackcomposeresearch
 
 import android.content.res.Configuration
 import android.os.Bundle
-import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.appcompat.app.AppCompatActivity
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
@@ -17,21 +17,32 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.yotsufe.androidjetpackcomposeresearch.app1.App1
 import com.yotsufe.androidjetpackcomposeresearch.app1.Message
+import com.yotsufe.androidjetpackcomposeresearch.app2.App2Activity
 
-class MainActivity : ComponentActivity() {
+class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            val navController = rememberNavController()
-            NavHost(navController = navController, startDestination = "main") {
-                composable(route = "main") {
-                    Greeting("Android", onClickButton = { navController.navigate("app1") })
+            Column {
+                val navController = rememberNavController()
+                NavHost(navController = navController, startDestination = "main") {
+                    composable(route = "main") {
+                        Greeting("Android", onClickButton = { navController.navigate("app1") })
+                    }
+                    composable(route = "app1") {
+                        App1(
+                            msg = Message("Colleague", "Hey, take a look at Jetpack Compose, it's great!"),
+                            onClickButton = { navController.navigateUp() }
+                        )
+                    }
                 }
-                composable(route = "app1") {
-                    App1(
-                        msg = Message("Colleague", "Hey, take a look at Jetpack Compose, it's great!"),
-                        onClickButton = { navController.navigateUp() }
-                    )
+                Button(
+                    onClick = {
+                        startActivity(App2Activity.createIntent(this@MainActivity))
+                    },
+                    modifier = Modifier.fillMaxWidth()
+                ) {
+                    Text("App 2")
                 }
             }
         }
