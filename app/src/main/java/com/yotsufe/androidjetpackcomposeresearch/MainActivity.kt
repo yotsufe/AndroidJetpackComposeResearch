@@ -27,7 +27,7 @@ class MainActivity : AppCompatActivity() {
                 val navController = rememberNavController()
                 NavHost(navController = navController, startDestination = "main") {
                     composable(route = "main") {
-                        Greeting("Android", onClickButton = { navController.navigate("app1") })
+                        Greeting(onClickButton = { navController.navigate("app1") })
                     }
                     composable(route = "app1") {
                         App1(
@@ -41,6 +41,7 @@ class MainActivity : AppCompatActivity() {
                         startActivity(App2Activity.createIntent(this@MainActivity))
                     },
                     modifier = Modifier.fillMaxWidth()
+                        .padding(16.dp)
                 ) {
                     Text("App 2")
                 }
@@ -50,24 +51,23 @@ class MainActivity : AppCompatActivity() {
 }
 
 @Composable
-fun Greeting(name: String, onClickButton: ()->Unit = {}) {
+fun Greeting(onClickButton: ()->Unit = {}) {
     val typography = MaterialTheme.typography
     Column(
-        modifier = Modifier.padding(16.dp)
+        modifier = Modifier.fillMaxWidth()
+            .padding(16.dp)
     ) {
         Spacer(Modifier.height(16.dp))
-
-        Text(text = "Hello $name!",
-            style = typography.h6)
-
-        Spacer(Modifier.height(8.dp))
 
         Text(text = "App Menu",
             style = typography.body2)
 
         Spacer(Modifier.height(8.dp))
 
-        Button(onClick = onClickButton) {
+        Button(
+            onClick = onClickButton,
+            modifier = Modifier.fillMaxWidth()
+        ) {
             Text(text = "App 1")
         }
     }
@@ -81,5 +81,5 @@ fun Greeting(name: String, onClickButton: ()->Unit = {}) {
 )
 @Composable
 fun DefaultPreview() {
-    Greeting("Android")
+    Greeting()
 }
